@@ -1,0 +1,69 @@
+.Countdown {
+  max-width: 600px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.Progressbar {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+}
+
+.Progressbar svg path {
+  fill: none;
+  stroke-width: 20px;
+  stroke-miterlimit: round;
+  transition: stroke-dashoffset 850ms ease-in-out;
+}
+
+.Spinner {
+  height: 100%;
+  animation: App-logo-spin infinite 20s linear;
+  box-sizing: border-box;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  top: 0;
+}
+
+.Statistics {
+  position: relative;
+  margin: -120px 0 100px 0;
+}
+
+.Counter {
+  font-weight: 100;
+  font-size: 200%;
+  color: white;
+  text-shadow: 0 0 20px #cff599;
+}
+
+hr {
+  width: 60%;
+  box-shadow: 0 0 20px #cff599;
+  /*box-shadow: 0 0 20px #cff599;*/
+}
+
+.Counter div {
+  display: inline-block;
+  min-width: calc(40px + 40 * ((100vw) / 1300));
+}
+
+.Counter div span {
+  color: #b1cdf1;
+  display: block;
+  font-size: 0.35em;
+  font-weight: 400;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
