@@ -35,9 +35,8 @@ class Countdown extends Component {
         minutes: total.minutes - total.hours * 60,
         seconds: total.seconds - total.minutes * 60,
         thousands: duration - total.seconds * 1000,
-        week: Math.round(total.days / 7 + 1),
-        weeks: Math.round(total.days / 7),
-        weekDay: Math.round(total.days % 7)
+        week: Math.floor(total.days / 7),
+        weekDay: total.days % 7
       };
     };
 
@@ -129,16 +128,17 @@ class Countdown extends Component {
         <div className="Statistics">
           <div className="Counter">
             <div>
-              {percentage}
-              <span> %</span>
+              {timer.progress.week}
+              {" "}+{" "}
+              {timer.progress.weekDay} {" "}
+              <span> week</span>
             </div>
           </div>
           <hr style={{ width: "40%" }} />
           <div className="Counter">
             <div>
-              {timer.progress.week} ( {timer.progress.weeks} +{" "}
-              {timer.progress.weekDay} )
-              <span> week</span>
+              {percentage}
+              <span> %</span>
             </div>
           </div>
           <hr style={{ width: "60%" }} />

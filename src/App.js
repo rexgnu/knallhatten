@@ -8,8 +8,8 @@ class App extends Component {
     return (
       <div className="App">
         <Countdown
-          delivery="January 16, 2019 00:00:00"
-          inception="April 11, 2018 00:00:00"
+          delivery="January 09, 2019 00:00:00"
+          inception="April 04, 2018 00:00:00"
           color="#fff"
           alpha={0.9}
           size={300}
