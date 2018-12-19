@@ -2,55 +2,52 @@ import React, { Component } from "react";
 import knallis from "./knallis.svg";
 import "./Countdown.css";
 
+const length = {
+  sec: 1000,
+  min: 1000 * 60,
+  hour: 1000 * 60 * 60,
+  day: 1000 * 60 * 60 * 24,
+  week: 1000 * 60 * 60 * 24 * 7,
+  pregnancy: 1000 * 60 * 60 * 24 * 7 * 40,
+};
+
+function sliceFactory(millisecs) {
+  const days = Math.floor(millisecs / length.day);
+  const hours = Math.floor(millisecs / length.hour);
+  const minutes = Math.floor(millisecs / length.min);
+  const seconds = Math.floor(millisecs / length.sec);
+
+  return {
+    days,
+    hours: hours - days * 24,
+    minutes: minutes - hours * 60,
+    seconds: seconds - minutes * 60,
+    thousands: millisecs - seconds * 1000,
+    week: Math.floor(days / 7),
+    weekDay: days % 7
+  };
+};
+
 class Countdown extends Component {
   calculate() {
     const now = new Date();
-    const inception = Date.parse(this.props.inception);
     const delivery = Date.parse(this.props.delivery);
-
-    const duration = {
-      complete: delivery - inception,
-      left: delivery - now,
-      progress: delivery - inception - (delivery - now)
-    };
-
-    const length = {
-      day: 1000 * 60 * 60 * 24,
-      hour: 1000 * 60 * 60,
-      min: 1000 * 60,
-      sec: 1000
-    };
-
-    const sliceFactory = duration => {
-      const total = {
-        days: Math.floor(duration / length.day),
-        hours: Math.floor(duration / length.hour),
-        minutes: Math.floor(duration / length.min),
-        seconds: Math.floor(duration / length.sec)
-      };
-
-      return {
-        days: total.days,
-        hours: total.hours - total.days * 24,
-        minutes: total.minutes - total.hours * 60,
-        seconds: total.seconds - total.minutes * 60,
-        thousands: duration - total.seconds * 1000,
-        week: Math.floor(total.days / 7),
-        weekDay: total.days % 7
-      };
-    };
-
+    const complete = length.pregnancy;
+    const remainder = delivery - now;
+    const progress = length.pregnancy - remainder;
     const timer = {
-      complete: sliceFactory(duration.complete),
-      left: sliceFactory(duration.left),
-      progress: sliceFactory(duration.progress)
+      complete: sliceFactory(complete),
+      remainder: sliceFactory(remainder),
+      progress: sliceFactory(progress)
     };
 
     return {
       timer,
-      duration,
+      complete,
+      remainder,
+      progress,
       percentage: parseFloat(
-        (1 - duration.left / duration.complete) * 100
+        (1 - remainder / complete) * 100
       ).toFixed(2)
     };
   }
@@ -75,8 +72,8 @@ class Countdown extends Component {
   }
 
   updateProgress() {
-    const { duration } = this.state;
-    const percentage = duration.left / duration.complete;
+    const { complete, remainder } = this.state;
+    const percentage = remainder / complete;
     const node = this.meter.current;
 
     // Get the length of the path
@@ -99,6 +96,7 @@ class Countdown extends Component {
 
     return (
       <div className="Countdown">
+      {this.props.delivery}
         <div className="Progressbar">
           <svg viewBox="0 0 200 200">
             <path
@@ -144,19 +142,19 @@ class Countdown extends Component {
           <hr style={{ width: "60%" }} />
           <div className="Counter">
             <div>
-              {timer.left.days}
+              {timer.remainder.days}
               <span> days</span>
             </div>
             <div>
-              {timer.left.hours}
+              {timer.remainder.hours}
               <span> hours</span>
             </div>
             <div>
-              {timer.left.minutes}
+              {timer.remainder.minutes}
               <span> minutes</span>
             </div>
             <div>
-              {timer.left.seconds}
+              {timer.remainder.seconds}
               <span> seconds</span>
             </div>
           </div>
